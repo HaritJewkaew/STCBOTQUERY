@@ -39,7 +39,7 @@ if (isset($jsonData["events"][0]["type"]) && $jsonData["events"][0]["type"] == "
             $row = mysqli_fetch_assoc($selectResult);
             if ($row) {
                 $infoId = $row['stretcher_register_id'];
-                $updateQuery = "UPDATE stretcher_register SET stretcher_work_status_id = 1, ผู้รับ = '$displayName' WHERE stretcher_register_id = '$infoId'";
+                $updateQuery = "UPDATE stretcher_register SET stretcher_priority_id = 2, ผู้รับ = '$displayName' WHERE stretcher_register_id = '$infoId'";
 
                 try {
                     $updateResult = mysqli_query($conn, $updateQuery);
@@ -59,19 +59,14 @@ if (isset($jsonData["events"][0]["type"]) && $jsonData["events"][0]["type"] == "
                                     "type": "uri",
                                     "uri": "http://linecorp.com/"
                                 },
-                                "url": "https://www.trueplookpanya.com/data/product/uploads/other4/exclamat_orange.jpg",
+                                "url": "https://img.freepik.com/premium-vector/continuous-one-line-drawing-medical-team-resuscitates-affected-person-doctor-take-patient-gurney_533993-27953.jpg?w=996",
                                 "type": "image"
                             },
                             "body": {
                                 "layout": "vertical",
                                 "type": "box",
                                 "contents": [
-                                    {
-                                        "weight": "bold",
-                                        "type": "text",
-                                        "size": "xl",
-                                        "text": "' . $reResult['status'] . '"
-                                    },
+                                    
                                     {
                                         "contents": [
                                             {
@@ -120,7 +115,7 @@ if (isset($jsonData["events"][0]["type"]) && $jsonData["events"][0]["type"] == "
                                                 "layout": "baseline",
                                                 "contents": [
                                                     {
-                                                        "text": "ผู้ป่วย",
+                                                        "text": "HN",
                                                         "size": "sm",
                                                         "color": "#aaaaaa",
                                                         "type": "text"
@@ -285,7 +280,7 @@ if (isset($postbackData['action']) && $postbackData['action'] == 'confirm_comple
     if ($selectResult) {
         $row = mysqli_fetch_assoc($selectResult);
         if ($row) {
-            $updateQuery = "UPDATE stretcher_register SET stretcher_work_status_id = 2, lastupdate = NOW() WHERE stretcher_register_id = '$responseId'";
+            $updateQuery = "UPDATE stretcher_register SET stretcher_priority_id = 2, lastupdate = NOW() WHERE stretcher_register_id = '$responseId'";
 
             try {
                 $updateResult = mysqli_query($conn, $updateQuery);
@@ -457,7 +452,7 @@ switch ($text) {
 
         error_log("Display Name: $displayName");
 
-        $checkQuery = "SELECT * FROM stretcher_register WHERE ผู้รับ = '$displayName' AND stretcher_work_status_id = 1 LIMIT 1";
+        $checkQuery = "SELECT * FROM stretcher_register WHERE ผู้รับ = '$displayName' AND stretcher_priority_id = 2 LIMIT 1";
 
         error_log("SQL Query: $checkQuery");
 
@@ -473,13 +468,23 @@ switch ($text) {
                     "altText": "Flex Message",
                     "contents": {
                         "type": "bubble",
+                        "hero": {
+                                "size": "4xl",
+                                "action": {
+                                    "type": "uri",
+                                    "uri": "http://linecorp.com/"
+                                },
+                                "url": "https://img.freepik.com/premium-vector/continuous-one-line-drawing-medical-team-resuscitates-affected-person-doctor-take-patient-gurney_533993-27953.jpg?w=996",
+                                "type": "image"
+                            },
+
                         "footer": {
                             "type": "box",
                             "spacing": "sm",
                             "layout": "vertical",
                             "contents": [
                                 {
-                                    "color": "#0077FF",
+                                    "color": "#00A36C",
                                     "style": "primary",
                                     "height": "sm",
                                     "type": "button",
@@ -549,7 +554,7 @@ switch ($text) {
                                             "layout": "baseline",
                                             "contents": [
                                                 {
-                                                    "text": "ผู้ป่วย",
+                                                    "text": "HN",
                                                     "size": "sm",
                                                     "color": "#aaaaaa",
                                                     "type": "text"
@@ -576,7 +581,7 @@ switch ($text) {
                                                 },
                                                 {
                                                     "size": "sm",
-                                                    "text": "' . ensureNonEmpty($row['from_note']) . '",
+                                                    "text": "' . ensureNonEmpty($row['from_depcode']) . '",
                                                     "wrap": true,
                                                     "color": "#666666",
                                                     "type": "text"
@@ -596,7 +601,7 @@ switch ($text) {
                                                 },
                                                 {
                                                     "size": "sm",
-                                                    "text": "' . ensureNonEmpty($row['send_note']) . '",
+                                                    "text": "' . ensureNonEmpty($row['send_depcode']) . '",
                                                     "wrap": true,
                                                     "color": "#666666",
                                                     "type": "text"
@@ -677,7 +682,7 @@ switch ($text) {
                     "layout": "vertical",
                     "contents": [
                         {
-                            "color": "#0077FF",
+                            "color": "#2fb7e7",
                             "style": "primary",
                             "height": "sm",
                             "type": "button",
@@ -695,19 +700,13 @@ switch ($text) {
                         "type": "uri",
                         "uri": "http://linecorp.com/"
                     },
-                    "url": "https://www.trueplookpanya.com/data/product/uploads/other4/exclamat_orange.jpg",
+                    "url": "https://img.freepik.com/premium-vector/continuous-one-line-drawing-medical-team-resuscitates-affected-person-doctor-take-patient-gurney_533993-27953.jpg?w=996",
                     "type": "image"
                 },
                 "body": {
                     "layout": "vertical",
                     "type": "box",
                     "contents": [
-                        {
-                            "weight": "bold",
-                            "type": "text",
-                            "size": "xl",
-                            "text": "' . $reResult['status'] . '"
-                        },
                         {
                             "contents": [
                                 {
@@ -756,7 +755,7 @@ switch ($text) {
                                     "layout": "baseline",
                                     "contents": [
                                         {
-                                            "text": "ผู้ป่วย",
+                                            "text": "HN",
                                             "size": "sm",
                                             "color": "#aaaaaa",
                                             "type": "text"
